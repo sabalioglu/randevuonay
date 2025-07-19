@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Eye, EyeOff, ArrowLeft, Loader2 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { signIn, signUp } from '../lib/supabase';
 
 interface LoginPageProps {
@@ -9,6 +10,7 @@ interface LoginPageProps {
 }
 
 const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -118,7 +120,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
             className="flex items-center text-gray-600 hover:text-gray-800 mb-8 transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Back to Home
+            {t('login.backToHome')}
           </button>
           
           <div className="flex justify-center">
@@ -128,27 +130,27 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
             </div>
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            {type === 'login' ? 'Sign in to your account' : 'Create your business account'}
+            {type === 'login' ? t('login.signInTitle') : t('login.createAccountTitle')}
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
             {type === 'login' ? (
               <>
-                Don't have an account?{' '}
+                {t('login.noAccount')}{' '}
                 <button
                   onClick={() => onNavigate('register')}
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
-                  Sign up here
+                  {t('login.signUpHere')}
                 </button>
               </>
             ) : (
               <>
-                Already have an account?{' '}
+                {t('login.haveAccount')}{' '}
                 <button
                   onClick={() => onNavigate('login')}
                   className="font-medium text-blue-600 hover:text-blue-500"
                 >
-                  Sign in
+                  {t('login.signIn')}
                 </button>
               </>
             )}
@@ -158,11 +160,11 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
         {/* Demo Credentials */}
         {type === 'login' && (
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="text-sm font-medium text-blue-800 mb-2">Demo Hesapları</h3>
+            <h3 className="text-sm font-medium text-blue-800 mb-2">{t('login.demoAccounts')}</h3>
             <div className="text-xs text-blue-700 space-y-1">
-              <p><strong>Diş Kliniği:</strong> demo@clinic.com / demo123</p>
-              <p><strong>Güzellik Salonu:</strong> demo@salon.com / demo123</p>
-              <p><strong>Spa & Wellness:</strong> demo@spa.com / demo123</p>
+              <p><strong>{t('login.dentalClinic')}:</strong> demo@clinic.com / demo123</p>
+              <p><strong>{t('login.beautysalon')}:</strong> demo@salon.com / demo123</p>
+              <p><strong>{t('login.spaWellness')}:</strong> demo@spa.com / demo123</p>
             </div>
             <button
               type="button"
@@ -175,7 +177,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
               }}
               className="mt-2 text-xs text-blue-600 hover:text-blue-800 underline"
             >
-              Diş kliniği demo bilgilerini kullan
+              {t('login.useDemoCredentials')}
             </button>
           </div>
         )}
@@ -187,7 +189,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <label htmlFor="firstName" className="block text-sm font-medium text-gray-700">
-                        First Name
+                        {t('login.firstName')}
                       </label>
                       <input
                         id="firstName"
@@ -197,12 +199,12 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                         value={formData.firstName}
                         onChange={handleInputChange}
                         className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                        placeholder="First name"
+                        placeholder={t('login.firstName')}
                       />
                     </div>
                     <div>
                       <label htmlFor="lastName" className="block text-sm font-medium text-gray-700">
-                        Last Name
+                        {t('login.lastName')}
                       </label>
                       <input
                         id="lastName"
@@ -212,14 +214,14 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                         value={formData.lastName}
                         onChange={handleInputChange}
                         className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                        placeholder="Last name"
+                        placeholder={t('login.lastName')}
                       />
                     </div>
                   </div>
                   
                   <div>
                     <label htmlFor="businessName" className="block text-sm font-medium text-gray-700">
-                      Business Name
+                      {t('login.businessName')}
                     </label>
                     <input
                       id="businessName"
@@ -229,13 +231,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                       value={formData.businessName}
                       onChange={handleInputChange}
                       className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                      placeholder="Your business name"
+                      placeholder={t('login.businessName')}
                     />
                   </div>
                   
                   <div>
                     <label htmlFor="businessType" className="block text-sm font-medium text-gray-700">
-                      Business Type
+                      {t('login.businessType')}
                     </label>
                     <select
                       id="businessType"
@@ -244,9 +246,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                       onChange={handleInputChange}
                       className="mt-1 block w-full px-3 py-2 border border-gray-300 bg-white rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
                     >
-                      <option value="clinic">Medical Clinic</option>
-                      <option value="salon">Beauty Salon</option>
-                      <option value="spa">Spa & Wellness</option>
+                      <option value="clinic">{t('login.medicalClinic')}</option>
+                      <option value="salon">{t('login.beautySalon')}</option>
+                      <option value="spa">{t('login.spaWellness')}</option>
                     </select>
                   </div>
                 </>
@@ -254,7 +256,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
               
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                  Email Address
+                  {t('login.emailAddress')}
                 </label>
                 <input
                   id="email"
@@ -265,13 +267,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                   value={formData.email}
                   onChange={handleInputChange}
                   className="mt-1 appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+                  placeholder={t('login.emailAddress')}
                 />
               </div>
               
               <div>
                 <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                  Password
+                  {t('login.password')}
                 </label>
                 <div className="mt-1 relative">
                   <input
@@ -283,7 +285,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                     value={formData.password}
                     onChange={handleInputChange}
                     className="appearance-none relative block w-full px-3 py-2 pr-10 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
-                    placeholder="Password"
+                    placeholder={t('login.password')}
                   />
                   <button
                     type="button"
@@ -310,13 +312,13 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                     className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
                   />
                   <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-900">
-                    Remember me
+                    {t('login.rememberMe')}
                   </label>
                 </div>
 
                 <div className="text-sm">
                   <a href="#" className="font-medium text-blue-600 hover:text-blue-500">
-                    Forgot your password?
+                    {t('login.forgotPassword')}
                   </a>
                 </div>
               </div>
@@ -331,10 +333,10 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
                 {isLoading ? (
                   <>
                     <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    {type === 'login' ? 'Signing In...' : 'Creating Account...'}
+                    {type === 'login' ? t('login.signingIn') : t('login.creatingAccount')}
                   </>
                 ) : (
-                  type === 'login' ? 'Sign In' : 'Create Account'
+                  type === 'login' ? t('login.signIn') : t('login.createAccount')
                 )}
               </button>
             </div>
@@ -349,9 +351,9 @@ const LoginPage: React.FC<LoginPageProps> = ({ type, onLogin, onNavigate }) => {
 
         {type === 'register' && (
           <div className="text-xs text-gray-500 text-center">
-            By creating an account, you agree to our{' '}
+            {t('login.termsText')}{' '}
             <a href="#" className="text-blue-600 hover:text-blue-500">Terms of Service</a>
-            {' '}and{' '}
+            {' '}{t('login.and')}{' '}
             <a href="#" className="text-blue-600 hover:text-blue-500">Privacy Policy</a>
           </div>
         )}

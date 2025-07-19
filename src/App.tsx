@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Settings, BarChart3, MessageSquare, Clock, Phone, Mail, Shield, Star, ArrowRight, Menu, X } from 'lucide-react';
+import { LanguageProvider } from './contexts/LanguageContext';
 import LandingPage from './components/LandingPage';
 import LoginPage from './components/LoginPage';
 import Dashboard from './components/Dashboard';
@@ -50,9 +51,11 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      {renderView()}
-    </div>
+    <LanguageProvider>
+      <div className="min-h-screen bg-gray-50">
+        {renderView()}
+      </div>
+    </LanguageProvider>
   );
 }
 

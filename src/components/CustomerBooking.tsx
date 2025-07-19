@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Clock, User, Phone, Mail, ArrowLeft, CheckCircle, MapPin, Loader2 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { getPublicBusinesses, getPublicServices, getPublicStaff, createAppointment } from '../lib/supabase';
 
 interface CustomerBookingProps {
@@ -7,6 +8,7 @@ interface CustomerBookingProps {
 }
 
 const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
+  const { t } = useLanguage();
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [businesses, setBusinesses] = useState<any[]>([]);
@@ -105,7 +107,7 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
 
   const renderStep1 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Choose a Business</h2>
+      <h2 className="text-2xl font-bold text-gray-900">{t('booking.chooseBusinessTitle')}</h2>
       <div className="grid gap-4">
         {businesses.map((business) => (
           <div
@@ -137,7 +139,7 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
 
   const renderStep2 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Select a Service</h2>
+      <h2 className="text-2xl font-bold text-gray-900">{t('booking.selectServiceTitle')}</h2>
       <div className="grid gap-4">
         {services.map((service) => (
           <div
@@ -169,7 +171,7 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
 
   const renderStep3 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Choose Your Provider</h2>
+      <h2 className="text-2xl font-bold text-gray-900">{t('booking.chooseProviderTitle')}</h2>
       <div className="grid gap-4">
         {staff.map((member) => (
           <div
@@ -195,11 +197,11 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
 
   const renderStep4 = () => (
     <div className="space-y-6">
-      <h2 className="text-2xl font-bold text-gray-900">Select Date & Time</h2>
+      <h2 className="text-2xl font-bold text-gray-900">{t('booking.selectDateTimeTitle')}</h2>
       
       <div className="grid md:grid-cols-2 gap-8">
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Select Date</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.selectDate')}</label>
           <input
             type="date"
             value={bookingData.date}
@@ -210,7 +212,7 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
         </div>
         
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">Available Times</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.availableTimes')}</label>
           <div className="grid grid-cols-2 gap-2 max-h-64 overflow-y-auto">
             {timeSlots.map((time) => (
               <button
@@ -230,45 +232,45 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
       </div>
 
       <div className="space-y-4">
-        <h3 className="text-lg font-medium text-gray-900">Your Information</h3>
+        <h3 className="text-lg font-medium text-gray-900">{t('booking.yourInformation')}</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.fullName')}</label>
             <input
               type="text"
               value={bookingData.customerName}
               onChange={(e) => handleInputChange('customerName', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Your full name"
+              placeholder={t('booking.fullName')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.email')}</label>
             <input
               type="email"
               value={bookingData.customerEmail}
               onChange={(e) => handleInputChange('customerEmail', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="your@email.com"
+              placeholder={t('booking.email')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.phone')}</label>
             <input
               type="tel"
               value={bookingData.customerPhone}
               onChange={(e) => handleInputChange('customerPhone', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="(555) 123-4567"
+              placeholder={t('booking.phone')}
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Special Notes (Optional)</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">{t('booking.specialNotes')}</label>
             <textarea
               value={bookingData.notes}
               onChange={(e) => handleInputChange('notes', e.target.value)}
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Any special requests or notes..."
+              placeholder={t('booking.specialNotes')}
               rows={3}
             />
           </div>
@@ -283,10 +285,10 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
         {isLoading ? (
           <>
             <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-            Booking Appointment...
+            {t('booking.bookingAppointment')}
           </>
         ) : (
-          'Book Appointment'
+          t('booking.bookAppointment')
         )}
       </button>
     </div>
@@ -297,29 +299,29 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
       <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto">
         <CheckCircle className="h-8 w-8 text-green-600" />
       </div>
-      <h2 className="text-2xl font-bold text-gray-900">Appointment Booked!</h2>
-      <p className="text-gray-600">Your appointment has been successfully scheduled.</p>
+      <h2 className="text-2xl font-bold text-gray-900">{t('booking.appointmentBooked')}</h2>
+      <p className="text-gray-600">{t('booking.successMessage')}</p>
       
       <div className="bg-gray-50 p-6 rounded-lg max-w-md mx-auto text-left">
-        <h3 className="font-semibold text-gray-900 mb-4">Appointment Details</h3>
+        <h3 className="font-semibold text-gray-900 mb-4">{t('booking.appointmentDetails')}</h3>
         <div className="space-y-2 text-sm">
-          <p><span className="font-medium">Business:</span> {businesses.find(b => b.id === bookingData.business)?.name}</p>
-          <p><span className="font-medium">Service:</span> {services.find(s => s.id === bookingData.service)?.name}</p>
-          <p><span className="font-medium">Provider:</span> {staff.find(s => s.id === bookingData.staff)?.name}</p>
-          <p><span className="font-medium">Date:</span> {bookingData.date}</p>
-          <p><span className="font-medium">Time:</span> {bookingData.time}</p>
+          <p><span className="font-medium">{t('booking.business')}:</span> {businesses.find(b => b.id === bookingData.business)?.name}</p>
+          <p><span className="font-medium">{t('booking.service')}:</span> {services.find(s => s.id === bookingData.service)?.name}</p>
+          <p><span className="font-medium">{t('booking.provider')}:</span> {staff.find(s => s.id === bookingData.staff)?.name}</p>
+          <p><span className="font-medium">{t('booking.date')}:</span> {bookingData.date}</p>
+          <p><span className="font-medium">{t('booking.time')}:</span> {bookingData.time}</p>
         </div>
       </div>
       
       <div className="space-y-3">
         <p className="text-sm text-gray-600">
-          A confirmation email has been sent to {bookingData.customerEmail}
+          {t('booking.confirmationEmail')} {bookingData.customerEmail}
         </p>
         <button
           onClick={() => onNavigate('landing')}
           className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Return to Home
+          {t('booking.returnToHome')}
         </button>
       </div>
     </div>
@@ -335,7 +337,7 @@ const CustomerBooking: React.FC<CustomerBookingProps> = ({ onNavigate }) => {
             className="flex items-center text-gray-600 hover:text-gray-800 mb-4 transition-colors"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            {step > 1 ? 'Back' : 'Back to Home'}
+            {step > 1 ? t('booking.back') : t('booking.backToHome')}
           </button>
           
           {step < 5 && (

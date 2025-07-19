@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Calendar, Users, Settings, BarChart3, MessageSquare, Clock, Phone, Mail, LogOut, Plus, Search, Filter, ChevronDown, AlertCircle, CheckCircle, TrendingUp, DollarSign, Loader2 } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 import { signOut } from '../lib/supabase';
 
 interface DashboardProps {
@@ -16,14 +17,15 @@ interface DashboardProps {
 }
 
 const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => {
+  const { t } = useLanguage();
   const [activeTab, setActiveTab] = useState('overview');
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   const stats = [
-    { name: 'Today\'s Appointments', value: '12', change: '+2', changeType: 'increase', icon: Calendar },
-    { name: 'This Week\'s Revenue', value: '$3,248', change: '+12%', changeType: 'increase', icon: DollarSign },
-    { name: 'Active Customers', value: '147', change: '+5', changeType: 'increase', icon: Users },
-    { name: 'Avg. Rating', value: '4.9', change: '+0.1', changeType: 'increase', icon: CheckCircle },
+    { name: t('dashboard.todaysAppointments'), value: '12', change: '+2', changeType: 'increase', icon: Calendar },
+    { name: t('dashboard.thisWeeksRevenue'), value: '$3,248', change: '+12%', changeType: 'increase', icon: DollarSign },
+    { name: t('dashboard.activeCustomers'), value: '147', change: '+5', changeType: 'increase', icon: Users },
+    { name: t('dashboard.avgRating'), value: '4.9', change: '+0.1', changeType: 'increase', icon: CheckCircle },
   ];
 
   const handleLogout = async () => {
@@ -75,7 +77,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
               <span className={`text-sm font-medium ${stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'}`}>
                 {stat.change}
               </span>
-              <span className="text-sm text-gray-500 ml-1">from last week</span>
+              <span className="text-sm text-gray-500 ml-1">{t('dashboard.fromLastWeek')}</span>
             </div>
           </div>
         ))}
@@ -85,10 +87,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
       <div className="bg-white rounded-lg shadow-sm border border-gray-200">
         <div className="px-6 py-4 border-b border-gray-200">
           <div className="flex items-center justify-between">
-            <h3 className="text-lg font-medium text-gray-900">Today's Appointments</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('dashboard.todaysAppointments')}</h3>
             <button className="bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors flex items-center">
               <Plus className="h-4 w-4 mr-2" />
-              New Appointment
+              {t('dashboard.newAppointment')}
             </button>
           </div>
         </div>
@@ -110,10 +112,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 </div>
                 <div className="flex items-center space-x-3">
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(appointment.status)}`}>
-                    {appointment.status.charAt(0).toUpperCase() + appointment.status.slice(1)}
+                    {t(`dashboard.${appointment.status}`)}
                   </span>
                   <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                    Edit
+                    {t('dashboard.edit')}
                   </button>
                 </div>
               </div>
@@ -262,10 +264,10 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 className="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-700 transition-colors flex items-center"
               >
                 <MessageSquare className="h-4 w-4 mr-2" />
-                AI Assistant
+                {t('dashboard.aiAssistant')}
               </button>
               <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">Welcome, {user.name}</span>
+                <span className="text-sm text-gray-600">{t('dashboard.welcome')}, {user.name}</span>
                 <button
                   onClick={handleLogout}
                   disabled={isLoggingOut}
@@ -295,7 +297,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 }`}
               >
                 <BarChart3 className="h-5 w-5 mr-3" />
-                Overview
+                {t('dashboard.overview')}
               </button>
               <button
                 onClick={() => setActiveTab('calendar')}
@@ -304,7 +306,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 }`}
               >
                 <Calendar className="h-5 w-5 mr-3" />
-                Calendar
+                {t('dashboard.calendar')}
               </button>
               <button
                 onClick={() => setActiveTab('customers')}
@@ -313,7 +315,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 }`}
               >
                 <Users className="h-5 w-5 mr-3" />
-                Customers
+                {t('dashboard.customers')}
               </button>
               <button
                 onClick={() => setActiveTab('analytics')}
@@ -322,7 +324,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 }`}
               >
                 <TrendingUp className="h-5 w-5 mr-3" />
-                Analytics
+                {t('dashboard.analytics')}
               </button>
               <button
                 onClick={() => setActiveTab('settings')}
@@ -331,7 +333,7 @@ const Dashboard: React.FC<DashboardProps> = ({ user, onLogout, onNavigate }) => 
                 }`}
               >
                 <Settings className="h-5 w-5 mr-3" />
-                Settings
+                {t('dashboard.settings')}
               </button>
             </nav>
           </aside>
