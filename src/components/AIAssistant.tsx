@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { MessageSquare, Send, ArrowLeft, User, Bot, Calendar, Clock, CheckCircle, AlertCircle } from 'lucide-react';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface AIAssistantProps {
   onNavigate: (view: string) => void;
@@ -18,11 +19,12 @@ interface Message {
 }
 
 const AIAssistant: React.FC<AIAssistantProps> = ({ onNavigate }) => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
       type: 'assistant',
-      content: 'Hello! I\'m your AI scheduling assistant. I can help you book, modify, or cancel appointments. I can also check availability, provide service information, and answer questions about your clinic or salon. How can I assist you today?',
+      content: t('ai.greeting'),
       timestamp: new Date()
     }
   ]);
@@ -194,17 +196,17 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onNavigate }) => {
               className="flex items-center text-gray-600 hover:text-gray-800 transition-colors"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to Dashboard
+              {t('ai.backToDashboard')}
             </button>
             
             <div className="flex items-center">
               <MessageSquare className="h-8 w-8 text-green-600" />
-              <span className="ml-2 text-xl font-bold text-gray-900">AI Assistant</span>
+              <span className="ml-2 text-xl font-bold text-gray-900">{t('ai.title')}</span>
             </div>
             
             <div className="flex items-center space-x-2">
               <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-              <span className="text-sm text-gray-600">Online</span>
+              <span className="text-sm text-gray-600">{t('ai.online')}</span>
             </div>
           </div>
         </div>
@@ -288,7 +290,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onNavigate }) => {
                 value={inputMessage}
                 onChange={(e) => setInputMessage(e.target.value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Ask me about appointments, services, or anything else..."
+                placeholder={t('ai.placeholder')}
                 className="flex-1 resize-none border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 rows={2}
                 disabled={isLoading}
@@ -303,7 +305,7 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onNavigate }) => {
             </div>
             
             <div className="mt-2 text-xs text-gray-500">
-              Press Enter to send, Shift+Enter for new line
+              {t('ai.sendHint')}
             </div>
           </div>
         </div>
@@ -313,8 +315,8 @@ const AIAssistant: React.FC<AIAssistantProps> = ({ onNavigate }) => {
           <div className="flex items-start space-x-3">
             <AlertCircle className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-blue-800">
-              <p className="font-medium mb-1">AI Assistant Capabilities</p>
-              <p>I can help with booking appointments, checking availability, providing service information, and handling cancellations. For urgent medical concerns, please call our emergency line or visit the nearest emergency room.</p>
+              <p className="font-medium mb-1">{t('ai.capabilities')}</p>
+              <p>{t('ai.capabilitiesDesc')}</p>
             </div>
           </div>
         </div>
